@@ -1,0 +1,247 @@
+@import 'tailwindcss';
+
+/* ============================================
+   FILIZ DIYET — Design System
+   Minimal & Elegant Dietitian Website
+   ============================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+/* --- CSS Custom Properties (Design Tokens) --- */
+:root {
+  /* Typography Scale — Modular (Perfect Fourth 1.333) */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+
+  --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1rem);
+  --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+  --text-xl: clamp(1.3rem, 1.1rem + 1vw, 1.5rem);
+  --text-2xl: clamp(1.6rem, 1.3rem + 1.5vw, 2rem);
+  --text-3xl: clamp(2rem, 1.5rem + 2.5vw, 2.75rem);
+  --text-4xl: clamp(2.5rem, 1.8rem + 3.5vw, 3.75rem);
+  --text-5xl: clamp(3rem, 2rem + 5vw, 5rem);
+
+  /* Color Palette — OKLCH for perceptual uniformity */
+  --color-primary: oklch(45% 0.15 155);         /* Deep sage green */
+  --color-primary-light: oklch(55% 0.12 155);    /* Lighter sage */
+  --color-primary-lighter: oklch(92% 0.04 155);  /* Very light sage tint */
+  --color-primary-dark: oklch(35% 0.12 155);     /* Dark sage */
+
+  --color-accent: oklch(65% 0.12 75);            /* Warm gold */
+  --color-accent-light: oklch(85% 0.06 75);      /* Light gold */
+
+  --color-surface: oklch(98.5% 0.005 90);        /* Warm off-white */
+  --color-surface-alt: oklch(96% 0.008 90);      /* Slightly darker surface */
+  --color-surface-elevated: oklch(99.5% 0.003 90);
+
+  --color-text-primary: oklch(22% 0.01 90);      /* Near-black, warm tint */
+  --color-text-secondary: oklch(45% 0.01 90);    /* Medium gray, warm */
+  --color-text-tertiary: oklch(62% 0.008 90);    /* Light gray, warm */
+  --color-text-inverse: oklch(97% 0.005 90);     /* Light text for dark bg */
+
+  --color-border: oklch(88% 0.005 90);           /* Subtle warm border */
+  --color-border-strong: oklch(78% 0.008 90);
+
+  /* Semantic Colors */
+  --color-success: oklch(55% 0.15 145);
+  --color-error: oklch(55% 0.2 25);
+  --color-warning: oklch(65% 0.15 70);
+  --color-info: oklch(55% 0.12 240);
+
+  /* Spacing Scale — 4pt base */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+
+  /* Fluid Spacing */
+  --section-padding: clamp(3rem, 5vw, 6rem);
+  --container-max: 72rem;
+  --container-narrow: 48rem;
+  --content-max: 65ch;
+
+  /* Motion Tokens */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-reveal: 700ms;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Shadows — Subtle, warm-tinted */
+  --shadow-sm: 0 1px 2px oklch(22% 0.01 90 / 0.05);
+  --shadow-md: 0 4px 12px oklch(22% 0.01 90 / 0.08);
+  --shadow-lg: 0 8px 24px oklch(22% 0.01 90 / 0.1);
+  --shadow-xl: 0 16px 48px oklch(22% 0.01 90 / 0.12);
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+}
+
+/* --- Base Styles --- */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-5xl); letter-spacing: -0.02em; }
+h2 { font-size: var(--text-4xl); letter-spacing: -0.015em; }
+h3 { font-size: var(--text-3xl); letter-spacing: -0.01em; }
+h4 { font-size: var(--text-2xl); }
+h5 { font-size: var(--text-xl); }
+h6 { font-size: var(--text-lg); }
+
+p {
+  max-width: var(--content-max);
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out-quart);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* --- Selection --- */
+::selection {
+  background: oklch(45% 0.15 155 / 0.15);
+  color: var(--color-text-primary);
+}
+
+/* --- Focus Visible --- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+
+/* --- Utility Classes --- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.section {
+  padding-block: var(--section-padding);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Animations --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--duration-reveal) var(--ease-out-expo) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-reveal) var(--ease-out-expo) both;
+}
+
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }
+.stagger-5 { animation-delay: 500ms; }
