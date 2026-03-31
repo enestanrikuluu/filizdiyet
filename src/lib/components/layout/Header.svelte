@@ -16,6 +16,10 @@
   function handleNavClick() {
     closeMobileMenu();
   }
+
+  function handleLogoClick() {
+    closeMobileMenu();
+  }
 </script>
 
 <header
@@ -25,7 +29,7 @@
 >
   <div class="container flex items-center justify-between" style="height: 4.5rem;">
     <!-- Logo -->
-    <a href="/" class="logo" on:click={handleNavClick}>
+    <a href="/" class="logo" onclick={handleLogoClick}>
       <span class="font-display text-2xl" style="font-size: var(--text-xl); color: var(--color-primary-dark); font-weight: 500; letter-spacing: -0.02em;">
         Filiz<span style="color: var(--color-accent); font-style: italic;"> Diyet</span>
       </span>
@@ -66,8 +70,8 @@
           border-radius: var(--radius-full);
           transition: all var(--duration-fast) var(--ease-out-quart);
         "
-        on:mouseenter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
-        on:mouseleave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
+        onmouseenter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
+        onmouseleave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
       >
         Randevu Al
       </a>
@@ -75,7 +79,7 @@
       <!-- Mobile menu button -->
       <button
         class="lg:hidden flex flex-col justify-center items-center w-10 h-10"
-        on:click={toggleMobileMenu}
+        onclick={toggleMobileMenu}
         aria-label="Menüyü aç/kapat"
         aria-expanded={$isMobileMenuOpen}
       >
@@ -123,7 +127,7 @@
             href={link.href}
             class="mobile-nav-link"
             class:active={$page.url.pathname === link.href}
-            on:click={handleNavClick}
+            onclick={handleNavClick}
             style="
               padding: var(--space-3) 0;
               font-size: var(--text-lg);
@@ -140,7 +144,7 @@
         <a
           href="/iletisim"
           class="mt-4 inline-flex items-center justify-center"
-          on:click={handleNavClick}
+          onclick={handleNavClick}
           style="
             padding: var(--space-3) var(--space-6);
             background: var(--color-primary);

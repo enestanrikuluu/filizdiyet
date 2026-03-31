@@ -6,6 +6,9 @@
   import { page } from '$app/stores';
   import { closeMobileMenu } from '$lib/stores';
   import { afterNavigate } from '$app/navigation';
+  import type { Snippet } from 'svelte';
+
+  let { children }: { children: Snippet } = $props();
 
   // Close mobile menu on navigation
   afterNavigate(() => {
@@ -14,7 +17,7 @@
   });
 
   // Check if admin route (no header/footer)
-  $: isAdmin = $page.url.pathname.startsWith('/admin');
+  let isAdmin = $derived($page.url.pathname.startsWith('/admin'));
 </script>
 
 <svelte:head>
@@ -26,10 +29,10 @@
 {#if !isAdmin}
   <Header />
   <main style="min-height: 100vh; padding-top: 4.5rem;">
-    <slot />
+    {@render children()}
   </main>
   <Footer />
   <WhatsAppButton />
 {:else}
-  <slot />
+  {@render children()}
 {/if}

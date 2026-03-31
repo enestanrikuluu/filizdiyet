@@ -2,8 +2,8 @@
   import { isAdminAuthenticated } from '$lib/stores';
   import type { Appointment } from '$lib/types';
 
-  let loginPassword = '';
-  let loginError = '';
+  let loginPassword = $state('');
+  let loginError = $state('');
 
   // Demo admin password
   function handleLogin() {
@@ -27,7 +27,7 @@
     { id: '3', fullName: 'Zeynep Aksoy', email: 'zeynep@email.com', phone: '0555 333 4455', date: '2026-04-04', time: '11:30', serviceType: 'PCOS Beslenme', message: 'Hormon testi sonuçlarım var', status: 'pending', createdAt: '2026-03-29' },
   ];
 
-  let activeTab: 'appointments' | 'stats' | 'settings' = 'appointments';
+  let activeTab: 'appointments' | 'stats' | 'settings' = $state('appointments');
 
   function getStatusLabel(status: string): string {
     const labels: Record<string, string> = { pending: 'Beklemede', confirmed: 'Onaylandı', cancelled: 'İptal', completed: 'Tamamlandı' };
@@ -57,9 +57,9 @@
         <p style="font-size: var(--text-sm); color: var(--color-text-tertiary);">Yönetim Paneli</p>
       </div>
 
-      <form on:submit|preventDefault={handleLogin}>
+      <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
         <label style="display: block; font-size: var(--text-sm); font-weight: 500; color: var(--color-text-secondary); margin-bottom: var(--space-2);">Şifre</label>
-        <input type="password" bind:value={loginPassword} placeholder="Yönetici şifresi" style={inputStyle} />
+        <input type="password" value={loginPassword} onchange={(e) => loginPassword = e.currentTarget.value} placeholder="Yönetici şifresi" style={inputStyle} />
         {#if loginError}
           <p style="font-size: var(--text-xs); color: var(--color-error); margin-top: var(--space-2);">{loginError}</p>
         {/if}
@@ -84,7 +84,7 @@
       </div>
       <div class="flex items-center gap-4">
         <a href="/" style="font-size: var(--text-sm); color: var(--color-text-tertiary); text-decoration: none;">Siteyi Gör</a>
-        <button on:click={handleLogout} style="font-size: var(--text-sm); color: var(--color-error); background: none; border: none; cursor: pointer;">Çıkış</button>
+        <button onclick={handleLogout} style="font-size: var(--text-sm); color: var(--color-error); background: none; border: none; cursor: pointer;">Çıkış</button>
       </div>
     </header>
 
@@ -112,7 +112,7 @@
           { key: 'settings', label: 'Ayarlar' }
         ] as tab}
           <button
-            on:click={() => activeTab = tab.key}
+            onclick={() => activeTab = tab.key}
             style="
               padding: var(--space-2) var(--space-4);
               font-size: var(--text-sm);

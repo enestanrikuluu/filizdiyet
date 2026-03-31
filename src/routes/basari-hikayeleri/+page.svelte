@@ -4,13 +4,13 @@
   import Button from '$lib/components/ui/Button.svelte';
   import { onMount } from 'svelte';
 
-  let sections: Record<string, boolean> = {};
+  let sections: Record<string, boolean> = $state({});
 
   onMount(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) { sections[entry.target.id] = true; sections = sections; }
+          if (entry.isIntersecting) { sections[entry.target.id] = true; }
         });
       },
       { threshold: 0.1 }

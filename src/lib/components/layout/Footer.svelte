@@ -32,8 +32,8 @@
             <a
               href={link.href}
               style="color: oklch(80% 0.005 90); font-size: var(--text-sm); transition: color var(--duration-fast) var(--ease-out-quart); text-decoration: none;"
-              on:mouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
-              on:mouseleave={(e) => e.currentTarget.style.color = 'oklch(80% 0.005 90)'}
+              onmouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
+              onmouseleave={(e) => e.currentTarget.style.color = 'oklch(80% 0.005 90)'}
             >
               {link.label}
             </a>
@@ -51,8 +51,8 @@
             <a
               href="/hizmetler"
               style="color: oklch(80% 0.005 90); font-size: var(--text-sm); transition: color var(--duration-fast) var(--ease-out-quart); text-decoration: none;"
-              on:mouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
-              on:mouseleave={(e) => e.currentTarget.style.color = 'oklch(80% 0.005 90)'}
+              onmouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
+              onmouseleave={(e) => e.currentTarget.style.color = 'oklch(80% 0.005 90)'}
             >
               {service}
             </a>
@@ -95,8 +95,8 @@
               rel="noopener noreferrer"
               aria-label="Instagram"
               style="color: oklch(70% 0.005 90); transition: color var(--duration-fast) var(--ease-out-quart);"
-              on:mouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
-              on:mouseleave={(e) => e.currentTarget.style.color = 'oklch(70% 0.005 90)'}
+              onmouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
+              onmouseleave={(e) => e.currentTarget.style.color = 'oklch(70% 0.005 90)'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
@@ -110,8 +110,8 @@
               rel="noopener noreferrer"
               aria-label="LinkedIn"
               style="color: oklch(70% 0.005 90); transition: color var(--duration-fast) var(--ease-out-quart);"
-              on:mouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
-              on:mouseleave={(e) => e.currentTarget.style.color = 'oklch(70% 0.005 90)'}
+              onmouseenter={(e) => e.currentTarget.style.color = 'var(--color-accent-light)'}
+              onmouseleave={(e) => e.currentTarget.style.color = 'oklch(70% 0.005 90)'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>

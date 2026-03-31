@@ -6,8 +6,8 @@
   import SectionHeading from '$lib/components/ui/SectionHeading.svelte';
   import Button from '$lib/components/ui/Button.svelte';
 
-  let heroVisible = false;
-  let sections: Record<string, boolean> = {};
+  let heroVisible = $state(false);
+  let sections: Record<string, boolean> = $state({});
 
   onMount(() => {
     heroVisible = true;
@@ -17,7 +17,6 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             sections[entry.target.id] = true;
-            sections = sections; // trigger reactivity
           }
         });
       },
@@ -121,8 +120,8 @@
         {#each featuredServices as service, i}
           <div
             style="background: var(--color-surface); padding: var(--space-8); transition: background var(--duration-fast) var(--ease-out-quart);"
-            on:mouseenter={(e) => e.currentTarget.style.background = 'var(--color-surface-elevated)'}
-            on:mouseleave={(e) => e.currentTarget.style.background = 'var(--color-surface)'}
+            onmouseenter={(e) => e.currentTarget.style.background = 'var(--color-surface-elevated)'}
+            onmouseleave={(e) => e.currentTarget.style.background = 'var(--color-surface)'}
             role="button"
             tabindex="0"
           >
@@ -141,8 +140,8 @@
         <a
           href="/hizmetler"
           style="font-size: var(--text-sm); font-weight: 500; color: var(--color-primary); text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-2); transition: gap var(--duration-fast) var(--ease-out-quart);"
-          on:mouseenter={(e) => e.currentTarget.style.gap = 'var(--space-3)'}
-          on:mouseleave={(e) => e.currentTarget.style.gap = 'var(--space-2)'}
+          onmouseenter={(e) => e.currentTarget.style.gap = 'var(--space-3)'}
+          onmouseleave={(e) => e.currentTarget.style.gap = 'var(--space-2)'}
         >
           Tüm hizmetleri gör
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -241,8 +240,8 @@
                 font-size: var(--text-lg);
                 transition: transform var(--duration-normal) var(--ease-out-expo);
               "
-              on:mouseenter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-              on:mouseleave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              onmouseenter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onmouseleave={(e) => e.currentTarget.style.transform = 'scale(1)'}
               role="button"
               tabindex="0"
             >
@@ -350,8 +349,8 @@
         text-decoration: none;
         transition: all var(--duration-fast) var(--ease-out-quart);
       "
-      on:mouseenter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; }}
-      on:mouseleave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
+      onmouseenter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; }}
+      onmouseleave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
     >
       Hemen Randevu Al
     </a>

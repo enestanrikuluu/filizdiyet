@@ -6,7 +6,7 @@
 
   type Category = 'all' | 'tarif' | 'beslenme' | 'saglik' | 'yasam';
 
-  let activeCategory: Category = 'all';
+  let activeCategory: Category = $state('all');
 
   const categories: { value: Category; label: string }[] = [
     { value: 'all', label: 'Tümü' },
@@ -16,7 +16,7 @@
   ];
 
   // Combine blog posts and recipes into unified items
-  $: allItems = [
+  let allItems = $derived([
     ...BLOG_POSTS.map(post => ({
       id: `blog-${post.id}`,
       slug: post.slug,
@@ -41,11 +41,11 @@
       type: 'recipe' as const,
       tags: recipe.tags as string[]
     }))
-  ];
+  ]);
 
-  $: filteredItems = activeCategory === 'all'
+  let filteredItems = $derived(activeCategory === 'all'
     ? allItems
-    : allItems.filter(item => item.category === activeCategory);
+    : allItems.filter(item => item.category === activeCategory));
 </script>
 
 <svelte:head>
@@ -64,7 +64,7 @@
     <div class="flex flex-wrap gap-2" style="margin-bottom: var(--space-12);">
       {#each categories as cat}
         <button
-          on:click={() => activeCategory = cat.value}
+          onclick={() => activeCategory = cat.value}
           style="
             padding: var(--space-2) var(--space-6);
             border-radius: var(--radius-full);

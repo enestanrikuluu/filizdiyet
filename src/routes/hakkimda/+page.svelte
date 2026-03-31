@@ -3,7 +3,7 @@
   import Button from '$lib/components/ui/Button.svelte';
   import { onMount } from 'svelte';
 
-  let sections: Record<string, boolean> = {};
+  let sections: Record<string, boolean> = $state({});
 
   onMount(() => {
     const observer = new IntersectionObserver(
@@ -11,7 +11,6 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             sections[entry.target.id] = true;
-            sections = sections;
           }
         });
       },
@@ -122,8 +121,8 @@
               color: var(--color-text-secondary);
               transition: all var(--duration-fast) var(--ease-out-quart);
             "
-            on:mouseenter={(e) => { e.currentTarget.style.borderColor = 'var(--color-primary)'; e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.background = 'var(--color-primary-lighter)'; }}
-            on:mouseleave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-strong)'; e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.background = 'transparent'; }}
+            onmouseenter={(e) => { e.currentTarget.style.borderColor = 'var(--color-primary)'; e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.background = 'var(--color-primary-lighter)'; }}
+            onmouseleave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-strong)'; e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.background = 'transparent'; }}
             role="button"
             tabindex="0"
           >

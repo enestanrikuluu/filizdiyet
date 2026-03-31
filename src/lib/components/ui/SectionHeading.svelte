@@ -1,8 +1,5 @@
 <script lang="ts">
-  export let label: string = '';
-  export let title: string;
-  export let description: string = '';
-  export let align: 'left' | 'center' = 'left';
+  let { label = '', title, description = '', align = 'left' } = $props();
 </script>
 
 <div class={align === 'center' ? 'text-center' : ''} style="margin-bottom: var(--space-12);">

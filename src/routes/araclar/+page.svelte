@@ -5,9 +5,9 @@
   import type { BmiResult, CalorieResult } from '$lib/types';
 
   // BMI Calculator state
-  let bmiWeight = 70;
-  let bmiHeight = 170;
-  let bmiResult: BmiResult | null = null;
+  let bmiWeight = $state(70);
+  let bmiHeight = $state(170);
+  let bmiResult: BmiResult | null = $state(null);
 
   function handleBmiCalculation() {
     if (bmiWeight > 0 && bmiHeight > 0) {
@@ -16,12 +16,12 @@
   }
 
   // Calorie Calculator state
-  let calWeight = 70;
-  let calHeight = 170;
-  let calAge = 30;
-  let calGender: 'male' | 'female' = 'female';
-  let calActivity = 1.55;
-  let calResult: CalorieResult | null = null;
+  let calWeight = $state(70);
+  let calHeight = $state(170);
+  let calAge = $state(30);
+  let calGender: 'male' | 'female' = $state('female');
+  let calActivity = $state(1.55);
+  let calResult: CalorieResult | null = $state(null);
 
   const activityLevels = [
     { value: 1.2, label: 'Hareketsiz', desc: 'Masa başı iş, egzersiz yok' },
@@ -83,16 +83,16 @@
         <div class="grid grid-cols-2 gap-4" style="margin-bottom: var(--space-6);">
           <div>
             <label style={labelStyle}>Kilo (kg)</label>
-            <input type="number" bind:value={bmiWeight} min="30" max="250" style={inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
+            <input type="number" value={bmiWeight} onchange={(e) => bmiWeight = parseFloat(e.currentTarget.value)} min="30" max="250" style={inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
           </div>
           <div>
             <label style={labelStyle}>Boy (cm)</label>
-            <input type="number" bind:value={bmiHeight} min="100" max="250" style={inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
+            <input type="number" value={bmiHeight} onchange={(e) => bmiHeight = parseFloat(e.currentTarget.value)} min="100" max="250" style={inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
           </div>
         </div>
 
         <button
-          on:click={handleBmiCalculation}
+          onclick={handleBmiCalculation}
           style="
             width: 100%;
             padding: var(--space-3);
@@ -105,8 +105,8 @@
             font-size: var(--text-sm);
             transition: background var(--duration-fast) var(--ease-out-quart);
           "
-          on:mouseenter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
-          on:mouseleave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
+          onmouseenter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
+          onmouseleave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
         >
           Hesapla
         </button>
@@ -140,7 +140,7 @@
           <label style={labelStyle}>Cinsiyet</label>
           <div class="flex gap-3">
             <button
-              on:click={() => calGender = 'female'}
+              onclick={() => calGender = 'female'}
               style="
                 flex: 1;
                 padding: var(--space-2);
@@ -157,7 +157,7 @@
               Kadın
             </button>
             <button
-              on:click={() => calGender = 'male'}
+              onclick={() => calGender = 'male'}
               style="
                 flex: 1;
                 padding: var(--space-2);
@@ -179,15 +179,15 @@
         <div class="grid grid-cols-3 gap-3" style="margin-bottom: var(--space-4);">
           <div>
             <label style={labelStyle}>Yaş</label>
-            <input type="number" bind:value={calAge} min="15" max="80" style={inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
+            <input type="number" value={calAge} onchange={(e) => calAge = parseFloat(e.currentTarget.value)} min="15" max="80" style={inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
           </div>
           <div>
             <label style={labelStyle}>Kilo (kg)</label>
-            <input type="number" bind:value={calWeight} min="30" max="250" style={inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
+            <input type="number" value={calWeight} onchange={(e) => calWeight = parseFloat(e.currentTarget.value)} min="30" max="250" style={inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
           </div>
           <div>
             <label style={labelStyle}>Boy (cm)</label>
-            <input type="number" bind:value={calHeight} min="100" max="250" style={inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
+            <input type="number" value={calHeight} onchange={(e) => calHeight = parseFloat(e.currentTarget.value)} min="100" max="250" style={inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'} />
           </div>
         </div>
 
@@ -195,10 +195,11 @@
         <div style="margin-bottom: var(--space-6);">
           <label style={labelStyle}>Aktivite Düzeyi</label>
           <select
-            bind:value={calActivity}
+            value={calActivity}
+            onchange={(e) => calActivity = parseFloat(e.currentTarget.value)}
             style="{inputStyle} cursor: pointer;"
-            on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'}
-            on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'}
+            onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'}
+            onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'}
           >
             {#each activityLevels as level}
               <option value={level.value}>{level.label} — {level.desc}</option>
@@ -207,7 +208,7 @@
         </div>
 
         <button
-          on:click={handleCalorieCalculation}
+          onclick={handleCalorieCalculation}
           style="
             width: 100%;
             padding: var(--space-3);
@@ -220,8 +221,8 @@
             font-size: var(--text-sm);
             transition: background var(--duration-fast) var(--ease-out-quart);
           "
-          on:mouseenter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
-          on:mouseleave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
+          onmouseenter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
+          onmouseleave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
         >
           Hesapla
         </button>

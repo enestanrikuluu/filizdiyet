@@ -1,10 +1,5 @@
 <script lang="ts">
-  export let variant: 'primary' | 'secondary' | 'ghost' | 'outline' = 'primary';
-  export let size: 'sm' | 'md' | 'lg' = 'md';
-  export let href: string | undefined = undefined;
-  export let type: 'button' | 'submit' = 'button';
-  export let disabled: boolean = false;
-  export let fullWidth: boolean = false;
+  let { variant = 'primary', size = 'md', href, type = 'button', disabled = false, fullWidth = false, children } = $props();
 
   const baseStyles = `
     inline-flex items-center justify-center font-semibold transition-all
@@ -25,15 +20,15 @@
     lg: 'text-base px-8 py-3 rounded-full'
   };
 
-  $: classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''}`;
+  let classes = $derived(`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''}`);
 </script>
 
 {#if href}
   <a {href} class={classes} style="transition-duration: var(--duration-fast); transition-timing-function: var(--ease-out-quart); text-decoration: none;">
-    <slot />
+    {@render children?.()}
   </a>
 {:else}
-  <button {type} {disabled} class={classes} style="transition-duration: var(--duration-fast); transition-timing-function: var(--ease-out-quart);" on:click>
-    <slot />
+  <button {type} {disabled} class={classes} style="transition-duration: var(--duration-fast); transition-timing-function: var(--ease-out-quart);">
+    {@render children?.()}
   </button>
 {/if}

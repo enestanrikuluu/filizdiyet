@@ -6,7 +6,7 @@
   import { generateTimeSlots, isValidPhone, isValidEmail } from '$lib/utils/calculations';
   import { isSubmitting, submissionSuccess } from '$lib/stores';
 
-  let formData = {
+  let formData = $state({
     fullName: '',
     email: '',
     phone: '',
@@ -14,9 +14,9 @@
     time: '',
     serviceType: '',
     message: ''
-  };
+  });
 
-  let errors: Record<string, string> = {};
+  let errors: Record<string, string> = $state({});
   const timeSlots = generateTimeSlots();
 
   function validateForm(): boolean {
@@ -86,34 +86,34 @@
             <p style="color: var(--color-text-secondary); max-width: 40ch; margin-inline: auto;">
               En kısa sürede sizinle iletişime geçeceğiz. Sağlıklı günler dileriz.
             </p>
-            <button on:click={() => submissionSuccess.set(false)} style="margin-top: var(--space-6); padding: var(--space-2) var(--space-6); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-full); cursor: pointer; font-weight: 600;">
+            <button onclick={() => submissionSuccess.set(false)} style="margin-top: var(--space-6); padding: var(--space-2) var(--space-6); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-full); cursor: pointer; font-weight: 600;">
               Yeni Randevu Al
             </button>
           </div>
         {:else}
-          <form on:submit|preventDefault={handleSubmit} style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} style="display: flex; flex-direction: column; gap: var(--space-4);">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label for="fullName" style={labelStyle}>Ad Soyad *</label>
-                <input id="fullName" type="text" bind:value={formData.fullName} placeholder="Adınız Soyadınız" style={errors.fullName ? errorInputStyle : inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = errors.fullName ? 'var(--color-error)' : 'var(--color-border)'} />
+                <input id="fullName" type="text" value={formData.fullName} onchange={(e) => formData.fullName = e.currentTarget.value} placeholder="Adınız Soyadınız" style={errors.fullName ? errorInputStyle : inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = errors.fullName ? 'var(--color-error)' : 'var(--color-border)'} />
                 {#if errors.fullName}<p style="font-size: var(--text-xs); color: var(--color-error); margin-top: var(--space-1);">{errors.fullName}</p>{/if}
               </div>
               <div>
                 <label for="email" style={labelStyle}>E-posta *</label>
-                <input id="email" type="email" bind:value={formData.email} placeholder="ornek@email.com" style={errors.email ? errorInputStyle : inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = errors.email ? 'var(--color-error)' : 'var(--color-border)'} />
+                <input id="email" type="email" value={formData.email} onchange={(e) => formData.email = e.currentTarget.value} placeholder="ornek@email.com" style={errors.email ? errorInputStyle : inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = errors.email ? 'var(--color-error)' : 'var(--color-border)'} />
                 {#if errors.email}<p style="font-size: var(--text-xs); color: var(--color-error); margin-top: var(--space-1);">{errors.email}</p>{/if}
               </div>
             </div>
 
             <div>
               <label for="phone" style={labelStyle}>Telefon *</label>
-              <input id="phone" type="tel" bind:value={formData.phone} placeholder="05XX XXX XX XX" style={errors.phone ? errorInputStyle : inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = errors.phone ? 'var(--color-error)' : 'var(--color-border)'} />
+              <input id="phone" type="tel" value={formData.phone} onchange={(e) => formData.phone = e.currentTarget.value} placeholder="05XX XXX XX XX" style={errors.phone ? errorInputStyle : inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = errors.phone ? 'var(--color-error)' : 'var(--color-border)'} />
               {#if errors.phone}<p style="font-size: var(--text-xs); color: var(--color-error); margin-top: var(--space-1);">{errors.phone}</p>{/if}
             </div>
 
             <div>
               <label for="service" style={labelStyle}>Hizmet Türü *</label>
-              <select id="service" bind:value={formData.serviceType} style="{errors.serviceType ? errorInputStyle : inputStyle} cursor: pointer;">
+              <select id="service" value={formData.serviceType} onchange={(e) => formData.serviceType = e.currentTarget.value} style="{errors.serviceType ? errorInputStyle : inputStyle} cursor: pointer;">
                 <option value="">Seçiniz</option>
                 {#each SERVICES as service}
                   <option value={service.id}>{service.title}</option>
@@ -125,12 +125,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label for="date" style={labelStyle}>Tercih Edilen Tarih *</label>
-                <input id="date" type="date" bind:value={formData.date} min={minDate} style={errors.date ? errorInputStyle : inputStyle} on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = errors.date ? 'var(--color-error)' : 'var(--color-border)'} />
+                <input id="date" type="date" value={formData.date} onchange={(e) => formData.date = e.currentTarget.value} min={minDate} style={errors.date ? errorInputStyle : inputStyle} onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = errors.date ? 'var(--color-error)' : 'var(--color-border)'} />
                 {#if errors.date}<p style="font-size: var(--text-xs); color: var(--color-error); margin-top: var(--space-1);">{errors.date}</p>{/if}
               </div>
               <div>
                 <label for="time" style={labelStyle}>Tercih Edilen Saat *</label>
-                <select id="time" bind:value={formData.time} style="{errors.time ? errorInputStyle : inputStyle} cursor: pointer;">
+                <select id="time" value={formData.time} onchange={(e) => formData.time = e.currentTarget.value} style="{errors.time ? errorInputStyle : inputStyle} cursor: pointer;">
                   <option value="">Seçiniz</option>
                   {#each timeSlots as slot}
                     <option value={slot}>{slot}</option>
@@ -142,7 +142,7 @@
 
             <div>
               <label for="message" style={labelStyle}>Mesajınız (İsteğe Bağlı)</label>
-              <textarea id="message" bind:value={formData.message} rows="4" placeholder="Eklemek istediğiniz notlar..." style="{inputStyle} resize: vertical;" on:focus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} on:blur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'}></textarea>
+              <textarea id="message" value={formData.message} onchange={(e) => formData.message = e.currentTarget.value} rows="4" placeholder="Eklemek istediğiniz notlar..." style="{inputStyle} resize: vertical;" onfocus={(e) => e.currentTarget.style.borderColor = 'var(--color-primary)'} onblur={(e) => e.currentTarget.style.borderColor = 'var(--color-border)'}></textarea>
             </div>
 
             <button
