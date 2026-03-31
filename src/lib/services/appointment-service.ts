@@ -11,7 +11,7 @@ export interface AppointmentInput {
 }
 
 export async function createAppointment(input: AppointmentInput) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('appointments')
     .insert({
       full_name: input.fullName,
@@ -21,9 +21,7 @@ export async function createAppointment(input: AppointmentInput) {
       preferred_time: input.preferredTime,
       service_type: input.serviceType,
       message: input.message ?? ''
-    })
-    .select()
-    .single();
+    });
 
   if (error) {
     console.error('Error creating appointment:', error);
@@ -41,7 +39,7 @@ export async function createAppointment(input: AppointmentInput) {
     console.warn('Email notification error:', e);
   }
 
-  return data;
+  return true;
 }
 
 export async function getAppointments() {
