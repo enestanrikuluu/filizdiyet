@@ -40,7 +40,7 @@
   --color-text-primary: oklch(22% 0.01 90);      /* Near-black, warm tint */
   --color-text-secondary: oklch(45% 0.01 90);    /* Medium gray, warm */
   --color-text-tertiary: oklch(62% 0.008 90);    /* Light gray, warm */
-  --color-text-inverse: oklch(97% 0.005 90);     /* Light text for dark bg */
+  --color-text-inverse: #f5f5f0;                  /* Light text for dark bg */
 
   --color-border: oklch(88% 0.005 90);           /* Subtle warm border */
   --color-border-strong: oklch(78% 0.008 90);
@@ -245,3 +245,35 @@ a:hover {
 .stagger-3 { animation-delay: 300ms; }
 .stagger-4 { animation-delay: 400ms; }
 .stagger-5 { animation-delay: 500ms; }
+
+/* --- Custom Select Styling --- */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem !important;
+}
+
+select:focus {
+  border-color: var(--color-primary) !important;
+  outline: none;
+}
+
+/* Date input styling */
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}

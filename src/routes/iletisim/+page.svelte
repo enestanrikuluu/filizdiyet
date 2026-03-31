@@ -180,7 +180,7 @@
               style="
                 padding: var(--space-3) var(--space-8);
                 background: var(--color-primary);
-                color: var(--color-text-inverse);
+                color: #fff;
                 font-weight: 600;
                 border: none;
                 border-radius: var(--radius-full);

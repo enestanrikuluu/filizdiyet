@@ -1,34 +1,62 @@
 <script lang="ts">
-  let { variant = 'primary', size = 'md', href, type = 'button', disabled = false, fullWidth = false, children } = $props();
+  import type { Snippet } from 'svelte';
 
-  const baseStyles = `
-    inline-flex items-center justify-center font-semibold transition-all
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]
-    disabled:opacity-50 disabled:cursor-not-allowed
-  `;
+  let { variant = 'primary', size = 'md', href, type = 'button', disabled = false, fullWidth = false, children }: {
+    variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
+    size?: 'sm' | 'md' | 'lg';
+    href?: string;
+    type?: string;
+    disabled?: boolean;
+    fullWidth?: boolean;
+    children?: Snippet;
+  } = $props();
 
-  const variants = {
-    primary: 'bg-[var(--color-primary)] text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-dark)]',
-    secondary: 'bg-[var(--color-surface-alt)] text-[var(--color-text-primary)] hover:bg-[var(--color-border)]',
-    ghost: 'text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-lighter)]',
-    outline: 'border border-[var(--color-border-strong)] text-[var(--color-text-primary)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
+  const variantStyles: Record<string, string> = {
+    primary: 'background: var(--color-primary); color: #fff;',
+    secondary: 'background: var(--color-surface-alt); color: var(--color-text-primary);',
+    ghost: 'background: transparent; color: var(--color-text-secondary);',
+    outline: 'background: transparent; color: var(--color-text-primary); border: 1px solid var(--color-border-strong);'
   };
 
-  const sizes = {
-    sm: 'text-sm px-4 py-1.5 rounded-full',
-    md: 'text-sm px-6 py-2.5 rounded-full',
-    lg: 'text-base px-8 py-3 rounded-full'
+  const sizeStyles: Record<string, string> = {
+    sm: 'font-size: var(--text-sm); padding: 0.375rem 1rem; border-radius: 9999px;',
+    md: 'font-size: var(--text-sm); padding: 0.625rem 1.5rem; border-radius: 9999px;',
+    lg: 'font-size: var(--text-base); padding: 0.75rem 2rem; border-radius: 9999px;'
   };
 
-  let classes = $derived(`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''}`);
+  let buttonStyle = $derived(
+    `display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-family: var(--font-body); cursor: pointer; transition: all var(--duration-fast) var(--ease-out-quart); text-decoration: none; border: none; ${variantStyles[variant]} ${sizeStyles[size]} ${fullWidth ? 'width: 100%;' : ''} ${disabled ? 'opacity: 0.5; cursor: not-allowed;' : ''}`
+  );
 </script>
 
 {#if href}
-  <a {href} class={classes} style="transition-duration: var(--duration-fast); transition-timing-function: var(--ease-out-quart); text-decoration: none;">
+  <a {href} style={buttonStyle}
+    onmouseenter={(e) => {
+      if (variant === 'primary') e.currentTarget.style.background = 'var(--color-primary-dark)';
+      if (variant === 'outline') { e.currentTarget.style.borderColor = 'var(--color-primary)'; e.currentTarget.style.color = 'var(--color-primary)'; }
+      if (variant === 'ghost') { e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.background = 'var(--color-primary-lighter)'; }
+    }}
+    onmouseleave={(e) => {
+      if (variant === 'primary') e.currentTarget.style.background = 'var(--color-primary)';
+      if (variant === 'outline') { e.currentTarget.style.borderColor = 'var(--color-border-strong)'; e.currentTarget.style.color = 'var(--color-text-primary)'; }
+      if (variant === 'ghost') { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.background = 'transparent'; }
+    }}
+  >
     {@render children?.()}
   </a>
 {:else}
-  <button {type} {disabled} class={classes} style="transition-duration: var(--duration-fast); transition-timing-function: var(--ease-out-quart);">
+  <button {type} {disabled} style={buttonStyle}
+    onmouseenter={(e) => {
+      if (variant === 'primary') e.currentTarget.style.background = 'var(--color-primary-dark)';
+      if (variant === 'outline') { e.currentTarget.style.borderColor = 'var(--color-primary)'; e.currentTarget.style.color = 'var(--color-primary)'; }
+      if (variant === 'ghost') { e.currentTarget.style.color = 'var(--color-primary)'; e.currentTarget.style.background = 'var(--color-primary-lighter)'; }
+    }}
+    onmouseleave={(e) => {
+      if (variant === 'primary') e.currentTarget.style.background = 'var(--color-primary)';
+      if (variant === 'outline') { e.currentTarget.style.borderColor = 'var(--color-border-strong)'; e.currentTarget.style.color = 'var(--color-text-primary)'; }
+      if (variant === 'ghost') { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.background = 'transparent'; }
+    }}
+  >
     {@render children?.()}
   </button>
 {/if}
