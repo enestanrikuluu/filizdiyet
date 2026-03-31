@@ -63,6 +63,13 @@
 
 <svelte:head>
   <title>İletişim & Randevu — Filiz Diyet</title>
+  <meta name="description" content="Filiz Diyet ile iletişime geçin ve randevu alın. Ücretsiz ön görüşme için formu doldurun. Tuzla, İstanbul." />
+  <meta name="keywords" content="iletişim, randevu, beslenme danışmanlığı, ücretsiz danışma, Tuzla İstanbul" />
+  <meta property="og:title" content="İletişim & Randevu — Filiz Diyet" />
+  <meta property="og:description" content="Filiz Diyet ile iletişime geçin ve ücretsiz ön görüşme için randevu alın." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/iletisim" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <section class="section" style="padding-top: var(--space-16);">

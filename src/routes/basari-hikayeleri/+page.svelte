@@ -21,7 +21,14 @@
 </script>
 
 <svelte:head>
-  <title>Başarı Hikayeleri — Filiz Diyet | Danışan Sonuçları</title>
+  <title>Başarı Hikayeleri — Filiz Diyet</title>
+  <meta name="description" content="Filiz Diyet danışanlarının ilham veren dönüşüm hikayeleri. Gerçek insanlar, gerçek sonuçlar ve sağlıklı yaşamın başarısı." />
+  <meta name="keywords" content="başarı hikayeleri, danışan yorumları, dönüşüm hikayeleri, kilo kaybı, beslenme başarısı, müşteri deneyimleri" />
+  <meta property="og:title" content="Başarı Hikayeleri — Filiz Diyet" />
+  <meta property="og:description" content="Danışanlarımızın ilham veren dönüşüm hikayeleri ve gerçek sonuçları." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/basari-hikayeleri" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <section class="section" style="padding-top: var(--space-16);">

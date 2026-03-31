@@ -49,7 +49,14 @@
 </script>
 
 <svelte:head>
-  <title>Blog & Tarifler — Filiz Diyet | Sağlıklı Beslenme</title>
+  <title>Blog & Tarifler — Filiz Diyet</title>
+  <meta name="description" content="Sağlıklı beslenme hakkında bilimsel makaleler ve lezzetli tarifler. Beslenme ipuçları, sağlık tavsiyeleri ve beslenme bilgileri." />
+  <meta name="keywords" content="beslenme rehberi, sağlıklı tarifler, diyet tarifleri, beslenme ipuçları, sağlık, yaşam tarzı" />
+  <meta property="og:title" content="Blog & Tarifler — Filiz Diyet" />
+  <meta property="og:description" content="Sağlıklı beslenme hakkında makaleler ve lezzetli tarifler. Beslenme ipuçları ve sağlık tavsiyeleri." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/blog" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <section class="section" style="padding-top: var(--space-16);">

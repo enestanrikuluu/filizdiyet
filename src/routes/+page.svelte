@@ -35,7 +35,14 @@
 </script>
 
 <svelte:head>
-  <title>Filiz Diyet — Diyetisyen Başak Filiz Tanrıkulu | Tuzla, İstanbul</title>
+  <title>Ana Sayfa — Filiz Diyet</title>
+  <meta name="description" content="Diyetisyen Başak Filiz Tanrıkulu'nun kişiye özel beslenme danışmanlığı hizmetleri. Sağlıklı yaşam için bilimsel temelli diyet programları. Tuzla, İstanbul." />
+  <meta name="keywords" content="diyetisyen, beslenme danışmanlığı, diyet programı, kilo yönetimi, sağlıklı beslenme, Tuzla, İstanbul" />
+  <meta property="og:title" content="Ana Sayfa — Filiz Diyet" />
+  <meta property="og:description" content="Diyetisyen Başak Filiz Tanrıkulu'nun kişiye özel beslenme danışmanlığı hizmetleri. Sağlıklı yaşam için bilimsel temelli diyet programları." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <!-- HERO -->

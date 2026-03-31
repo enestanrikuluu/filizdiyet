@@ -44,6 +44,13 @@
 
 <svelte:head>
   <title>Admin Panel — Filiz Diyet</title>
+  <meta name="description" content="Filiz Diyet Admin Panel. Randevuları yönetin ve site ayarlarını kontrol edin." />
+  <meta name="keywords" content="admin, panel, yönetim, randevular" />
+  <meta property="og:title" content="Admin Panel — Filiz Diyet" />
+  <meta property="og:description" content="Filiz Diyet Admin Panel" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/admin" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 {#if !$isAdminAuthenticated}

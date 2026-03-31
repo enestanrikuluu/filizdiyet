@@ -42,7 +42,14 @@
 </script>
 
 <svelte:head>
-  <title>Hakkımda — Diyetisyen Başak Filiz Tanrıkulu | Filiz Diyet</title>
+  <title>Hakkımda — Filiz Diyet</title>
+  <meta name="description" content="Diyetisyen Başak Filiz Tanrıkulu hakkında bilgi. 6+ yıl deneyim, kolajen, anti-aging beslenme uzmanı. Lösev'de sosyal sorumluluk projeleri." />
+  <meta name="keywords" content="Başak Filiz Tanrıkulu, diyetisyen, beslenme uzmanı, anti-aging, kolajen, PCOS, klinik beslenme" />
+  <meta property="og:title" content="Hakkımda — Filiz Diyet" />
+  <meta property="og:description" content="Diyetisyen Başak Filiz Tanrıkulu hakkında bilgi. 6+ yıl deneyim ve uzmanlık alanları." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/hakkimda" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <!-- Hero -->

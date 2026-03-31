@@ -23,7 +23,14 @@
 </script>
 
 <svelte:head>
-  <title>Hizmetler — Filiz Diyet | Beslenme Danışmanlığı</title>
+  <title>Hizmetler — Filiz Diyet</title>
+  <meta name="description" content="Filiz Diyet'in beslenme danışmanlığı hizmetleri. Kişiye özel diyet programları, online danışmanlık, sporcu beslenmesi, PCOS ve daha fazlası." />
+  <meta name="keywords" content="beslenme danışmanlığı, diyet programı, PCOS, sporcu beslenmesi, online diyet, kilo yönetimi, sağlıklı beslenme" />
+  <meta property="og:title" content="Hizmetler — Filiz Diyet" />
+  <meta property="og:description" content="Kişiye özel beslenme danışmanlığı hizmetleri. Diyet programları, PCOS, sporcu beslenmesi, online danışmanlık." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/hizmetler" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <section class="section" style="padding-top: var(--space-16);">

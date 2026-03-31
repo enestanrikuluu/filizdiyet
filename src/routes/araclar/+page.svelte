@@ -61,7 +61,14 @@
 </script>
 
 <svelte:head>
-  <title>Sağlık Araçları — BMI & Kalori Hesaplayıcı | Filiz Diyet</title>
+  <title>Sağlık Araçları — Filiz Diyet</title>
+  <meta name="description" content="Ücretsiz sağlık araçları. BMI hesaplayıcı ve günlük kalori ihtiyacı hesaplama. Sağlığınızı takip edin ve kişisel beslenme planı başlayın." />
+  <meta name="keywords" content="BMI hesapla, kalori hesaplayıcı, vücut kitle indeksi, günlük kalori ihtiyacı, sağlık araçları" />
+  <meta property="og:title" content="Sağlık Araçları — Filiz Diyet" />
+  <meta property="og:description" content="Ücretsiz BMI ve kalori hesaplayıcı araçları. Sağlığınızı takip edin." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/araclar" />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <section class="section" style="padding-top: var(--space-16);">
