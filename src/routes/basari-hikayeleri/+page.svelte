@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { SUCCESS_STORIES, TESTIMONIALS } from '$lib/data/success-stories';
   import SectionHeading from '$lib/components/ui/SectionHeading.svelte';
   import Button from '$lib/components/ui/Button.svelte';
   import { onMount } from 'svelte';
+  import type { PageData } from './$types';
+
+  let { data } = $props<{ data: PageData }>();
 
   let sections: Record<string, boolean> = $state({});
 
@@ -42,7 +44,7 @@
 </section>
 
 <!-- Stories -->
-{#each SUCCESS_STORIES as story, i}
+{#each data.successStories as story, i}
   <section
     id="story-{i}"
     data-animate
@@ -109,7 +111,7 @@
     <div style="opacity: {sections['testimonials'] ? '1' : '0'}; transform: translateY({sections['testimonials'] ? '0' : '20px'}); transition: all var(--duration-reveal) var(--ease-out-expo);">
       <SectionHeading label="Yorumlar" title="Danışanlarımız Ne Diyor?" />
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {#each TESTIMONIALS as testimonial}
+        {#each data.testimonials as testimonial}
           <div style="padding: var(--space-6); border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
             <div class="flex gap-1" style="margin-bottom: var(--space-3);">
               {#each Array(testimonial.rating) as _}

@@ -1,38 +1,81 @@
 <script lang="ts">
-  import { isAdminAuthenticated } from '$lib/stores';
+  import { adminLogin, adminLogout, getDashboardStats } from '$lib/services/admin-service';
+  import { getAppointments, updateAppointmentStatus } from '$lib/services/appointment-service';
+  import type { PageData } from './$types';
   import type { Appointment } from '$lib/types';
 
+  let { data } = $props<{ data: PageData }>();
+
+  let loginEmail = $state('');
   let loginPassword = $state('');
   let loginError = $state('');
-
-  // Demo admin password
-  function handleLogin() {
-    if (loginPassword === 'filizdiyet2024') {
-      isAdminAuthenticated.set(true);
-      loginError = '';
-    } else {
-      loginError = 'Yanlış şifre. Tekrar deneyin.';
-    }
-  }
-
-  function handleLogout() {
-    isAdminAuthenticated.set(false);
-    loginPassword = '';
-  }
-
-  // Demo appointments data
-  const demoAppointments: Appointment[] = [
-    { id: '1', fullName: 'Ayşe Yılmaz', email: 'ayse@email.com', phone: '0532 111 2233', date: '2026-04-02', time: '10:00', serviceType: 'Kişiye Özel Diyet', message: 'İlk görüşme', status: 'confirmed', createdAt: '2026-03-28' },
-    { id: '2', fullName: 'Mehmet Kaya', email: 'mehmet@email.com', phone: '0544 222 3344', date: '2026-04-03', time: '14:00', serviceType: 'Online Diyet', message: '', status: 'pending', createdAt: '2026-03-29' },
-    { id: '3', fullName: 'Zeynep Aksoy', email: 'zeynep@email.com', phone: '0555 333 4455', date: '2026-04-04', time: '11:30', serviceType: 'PCOS Beslenme', message: 'Hormon testi sonuçlarım var', status: 'pending', createdAt: '2026-03-29' },
-  ];
+  let isLoading = $state(false);
+  let appointments = $state<Appointment[]>([]);
+  let stats = $state({ totalAppointments: 0, pendingAppointments: 0, totalBlogPosts: 0, totalRecipes: 0, totalSuccessStories: 0 });
 
   let activeTab: 'appointments' | 'stats' | 'settings' = $state('appointments');
 
-  function getStatusLabel(status: string): string {
-    const labels: Record<string, string> = { pending: 'Beklemede', confirmed: 'Onaylandı', cancelled: 'İptal', completed: 'Tamamlandı' };
-    return labels[status] || status;
+  async function handleLogin() {
+    if (!loginEmail.trim() || !loginPassword.trim()) {
+      loginError = 'E-posta ve şifre gereklidir.';
+      return;
+    }
+
+    isLoading = true;
+    loginError = '';
+
+    try {
+      await adminLogin(loginEmail, loginPassword);
+      loginEmail = '';
+      loginPassword = '';
+      // Reload page to update authenticated state
+      window.location.reload();
+    } catch (error) {
+      loginError = error instanceof Error ? error.message : 'Giriş yapılamadı. Lütfen tekrar deneyin.';
+    } finally {
+      isLoading = false;
+    }
   }
+
+  async function handleLogout() {
+    await adminLogout();
+    window.location.reload();
+  }
+
+  async function loadAppointments() {
+    try {
+      appointments = await getAppointments();
+    } catch (error) {
+      console.error('Randevular yüklenemedi:', error);
+    }
+  }
+
+  async function loadStats() {
+    try {
+      stats = await getDashboardStats();
+    } catch (error) {
+      console.error('İstatistikler yüklenemedi:', error);
+    }
+  }
+
+  async function handleStatusChange(id: string, newStatus: string) {
+    try {
+      await updateAppointmentStatus(id, newStatus);
+      await loadAppointments();
+    } catch (error) {
+      console.error('Durum güncellenemedi:', error);
+    }
+  }
+
+  // Load data on mount if authenticated
+  import { onMount } from 'svelte';
+
+  onMount(() => {
+    if (data.authenticated) {
+      loadAppointments();
+      loadStats();
+    }
+  });
 
   function getStatusColor(status: string): string {
     const colors: Record<string, string> = { pending: 'var(--color-warning)', confirmed: 'var(--color-success)', cancelled: 'var(--color-error)', completed: 'var(--color-info)' };
@@ -53,7 +96,7 @@
   <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
-{#if !$isAdminAuthenticated}
+{#if !data.authenticated}
   <!-- Login Screen -->
   <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--color-surface-alt);">
     <div style="width: 100%; max-width: 400px; padding: var(--space-8); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
@@ -65,13 +108,18 @@
       </div>
 
       <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-        <label style="display: block; font-size: var(--text-sm); font-weight: 500; color: var(--color-text-secondary); margin-bottom: var(--space-2);">Şifre</label>
-        <input type="password" value={loginPassword} onchange={(e) => loginPassword = e.currentTarget.value} placeholder="Yönetici şifresi" style={inputStyle} />
+        <label style="display: block; font-size: var(--text-sm); font-weight: 500; color: var(--color-text-secondary); margin-bottom: var(--space-2);">E-posta</label>
+        <input type="email" value={loginEmail} onchange={(e) => loginEmail = e.currentTarget.value} placeholder="admin@example.com" style={inputStyle} />
+
+        <label style="display: block; font-size: var(--text-sm); font-weight: 500; color: var(--color-text-secondary); margin-bottom: var(--space-2); margin-top: var(--space-4);">Şifre</label>
+        <input type="password" value={loginPassword} onchange={(e) => loginPassword = e.currentTarget.value} placeholder="Şifreniz" style={inputStyle} />
+
         {#if loginError}
           <p style="font-size: var(--text-xs); color: var(--color-error); margin-top: var(--space-2);">{loginError}</p>
         {/if}
-        <button type="submit" style="width: 100%; padding: var(--space-3); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-full); font-weight: 600; cursor: pointer; margin-top: var(--space-4); font-size: var(--text-sm);">
-          Giriş Yap
+
+        <button type="submit" disabled={isLoading} style="width: 100%; padding: var(--space-3); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-full); font-weight: 600; cursor: {isLoading ? 'wait' : 'pointer'}; margin-top: var(--space-4); font-size: var(--text-sm); opacity: {isLoading ? '0.7' : '1'};">
+          {isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
         </button>
       </form>
 
@@ -99,10 +147,10 @@
       <!-- Stats Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" style="margin-bottom: var(--space-8);">
         {#each [
-          { label: 'Toplam Randevu', value: '3', color: 'var(--color-primary)' },
-          { label: 'Bekleyen', value: '2', color: 'var(--color-warning)' },
-          { label: 'Onaylanan', value: '1', color: 'var(--color-success)' },
-          { label: 'Bu Hafta', value: '3', color: 'var(--color-info)' }
+          { label: 'Toplam Randevu', value: stats.totalAppointments, color: 'var(--color-primary)' },
+          { label: 'Bekleyen', value: stats.pendingAppointments, color: 'var(--color-warning)' },
+          { label: 'Blog Yazıları', value: stats.totalBlogPosts, color: 'var(--color-info)' },
+          { label: 'Tarifler', value: stats.totalRecipes, color: 'var(--color-success)' }
         ] as stat}
           <div style="padding: var(--space-6); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
             <p style="font-size: var(--text-xs); color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;">{stat.label}</p>
@@ -153,22 +201,29 @@
                 </tr>
               </thead>
               <tbody>
-                {#each demoAppointments as apt}
+                {#each appointments as apt}
                   <tr style="border-bottom: 1px solid var(--color-border);">
                     <td style="padding: var(--space-3) var(--space-4);">
-                      <p style="font-weight: 500;">{apt.fullName}</p>
+                      <p style="font-weight: 500;">{apt.full_name}</p>
                       <p style="font-size: var(--text-xs); color: var(--color-text-tertiary);">{apt.phone}</p>
                     </td>
-                    <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-secondary);">{apt.serviceType}</td>
-                    <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-secondary);">{apt.date}</td>
-                    <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-secondary);">{apt.time}</td>
+                    <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-secondary);">{apt.service_type}</td>
+                    <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-secondary);">{apt.preferred_date}</td>
+                    <td style="padding: var(--space-3) var(--space-4); color: var(--color-text-secondary);">{apt.preferred_time}</td>
                     <td style="padding: var(--space-3) var(--space-4);">
-                      <span style="display: inline-block; padding: 2px var(--space-3); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; background: {getStatusColor(apt.status)}20; color: {getStatusColor(apt.status)};">
-                        {getStatusLabel(apt.status)}
-                      </span>
+                      <select
+                        value={apt.status}
+                        onchange={(e) => handleStatusChange(apt.id, e.currentTarget.value)}
+                        style="font-size: var(--text-xs); padding: 2px var(--space-2); border-radius: var(--radius-full); border: none; background: {getStatusColor(apt.status)}20; color: {getStatusColor(apt.status)}; cursor: pointer;"
+                      >
+                        <option value="pending">Beklemede</option>
+                        <option value="confirmed">Onaylandı</option>
+                        <option value="cancelled">İptal</option>
+                        <option value="completed">Tamamlandı</option>
+                      </select>
                     </td>
                     <td style="padding: var(--space-3) var(--space-4);">
-                      <button style="font-size: var(--text-xs); color: var(--color-primary); background: none; border: none; cursor: pointer; text-decoration: underline;">
+                      <button onclick={() => alert(apt.message || 'İçerik yok')} style="font-size: var(--text-xs); color: var(--color-primary); background: none; border: none; cursor: pointer; text-decoration: underline;">
                         Detay
                       </button>
                     </td>
@@ -179,9 +234,26 @@
           </div>
         </div>
       {:else if activeTab === 'stats'}
-        <div style="padding: var(--space-12); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); text-align: center;">
-          <p class="font-display" style="font-size: var(--text-2xl); color: var(--color-text-tertiary);">İstatistikler</p>
-          <p style="color: var(--color-text-tertiary); margin-top: var(--space-2);">Supabase entegrasyonu sonrası aktif olacak.</p>
+        <div style="padding: var(--space-8); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
+          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-6);">Genel İstatistikler</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div style="padding: var(--space-6); background: var(--color-surface-alt); border-radius: var(--radius-md);">
+              <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-2);">Toplam Randevular</p>
+              <p class="font-display" style="font-size: var(--text-3xl); color: var(--color-primary);">{stats.totalAppointments}</p>
+            </div>
+            <div style="padding: var(--space-6); background: var(--color-surface-alt); border-radius: var(--radius-md);">
+              <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-2);">Bekleyen Randevular</p>
+              <p class="font-display" style="font-size: var(--text-3xl); color: var(--color-warning);">{stats.pendingAppointments}</p>
+            </div>
+            <div style="padding: var(--space-6); background: var(--color-surface-alt); border-radius: var(--radius-md);">
+              <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-2);">Yayınlanan Blog Yazıları</p>
+              <p class="font-display" style="font-size: var(--text-3xl); color: var(--color-info);">{stats.totalBlogPosts}</p>
+            </div>
+            <div style="padding: var(--space-6); background: var(--color-surface-alt); border-radius: var(--radius-md);">
+              <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-2);">Yayınlanan Tarifler</p>
+              <p class="font-display" style="font-size: var(--text-3xl); color: var(--color-success);">{stats.totalRecipes}</p>
+            </div>
+          </div>
         </div>
       {:else}
         <div style="padding: var(--space-8); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);">

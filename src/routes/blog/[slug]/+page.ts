@@ -1,15 +1,15 @@
-import { BLOG_POSTS } from '$lib/data/blog-posts';
-import { RECIPES } from '$lib/data/recipes';
+import { getBlogPostBySlug } from '$lib/services/blog-service';
+import { getRecipeBySlug } from '$lib/services/recipe-service';
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = ({ params }) => {
-  const blogPost = BLOG_POSTS.find((post) => post.slug === params.slug);
+export const load: PageLoad = async ({ params }) => {
+  const blogPost = await getBlogPostBySlug(params.slug);
   if (blogPost) {
     return { type: 'blog' as const, item: blogPost };
   }
 
-  const recipe = RECIPES.find((r) => r.slug === params.slug);
+  const recipe = await getRecipeBySlug(params.slug);
   if (recipe) {
     return { type: 'recipe' as const, item: recipe };
   }

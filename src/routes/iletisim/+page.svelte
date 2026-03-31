@@ -5,6 +5,7 @@
   import { SERVICES } from '$lib/data/services';
   import { generateTimeSlots, isValidPhone, isValidEmail } from '$lib/utils/calculations';
   import { isSubmitting, submissionSuccess } from '$lib/stores';
+  import { createAppointment } from '$lib/services/appointment-service';
 
   let formData = $state({
     fullName: '',
@@ -17,6 +18,7 @@
   });
 
   let errors: Record<string, string> = $state({});
+  let submissionError = $state('');
   const timeSlots = generateTimeSlots();
 
   function validateForm(): boolean {
@@ -33,11 +35,26 @@
   async function handleSubmit() {
     if (!validateForm()) return;
     isSubmitting.set(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    isSubmitting.set(false);
-    submissionSuccess.set(true);
-    formData = { fullName: '', email: '', phone: '', date: '', time: '', serviceType: '', message: '' };
+    submissionError = '';
+
+    try {
+      await createAppointment({
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        preferredDate: formData.date,
+        preferredTime: formData.time,
+        serviceType: formData.serviceType,
+        message: formData.message
+      });
+
+      submissionSuccess.set(true);
+      formData = { fullName: '', email: '', phone: '', date: '', time: '', serviceType: '', message: '' };
+    } catch (error) {
+      submissionError = error instanceof Error ? error.message : 'Randevu oluşturulamadı. Lütfen tekrar deneyin.';
+    } finally {
+      isSubmitting.set(false);
+    }
   }
 
   // Get tomorrow's date for min attribute
@@ -98,6 +115,11 @@
             </button>
           </div>
         {:else}
+          {#if submissionError}
+            <div style="padding: var(--space-4); margin-bottom: var(--space-4); background: oklch(95% 0.08 25); border: 1px solid var(--color-error); border-radius: var(--radius-md); color: var(--color-error); font-size: var(--text-sm);">
+              {submissionError}
+            </div>
+          {/if}
           <form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} style="display: flex; flex-direction: column; gap: var(--space-4);">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>

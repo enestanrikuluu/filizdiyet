@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { SERVICES } from '$lib/data/services';
-  import { RECIPES } from '$lib/data/recipes';
-  import { TESTIMONIALS } from '$lib/data/success-stories';
   import SectionHeading from '$lib/components/ui/SectionHeading.svelte';
   import Button from '$lib/components/ui/Button.svelte';
+  import type { PageData } from './$types';
+
+  let { data } = $props<{ data: PageData }>();
 
   let heroVisible = $state(false);
   let sections: Record<string, boolean> = $state({});
@@ -31,7 +32,7 @@
   });
 
   const featuredServices = SERVICES.slice(0, 3);
-  const featuredRecipes = RECIPES.slice(0, 3);
+  const featuredRecipes = data.recipes;
 </script>
 
 <svelte:head>
@@ -303,7 +304,7 @@
     "
   >
     <div style="min-width: var(--space-6); flex-shrink: 0;"></div>
-    {#each TESTIMONIALS as testimonial}
+    {#each data.testimonials as testimonial}
       <div
         style="
           min-width: 320px;

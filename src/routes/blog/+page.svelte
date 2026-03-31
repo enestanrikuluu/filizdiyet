@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { BLOG_POSTS } from '$lib/data/blog-posts';
-  import { RECIPES } from '$lib/data/recipes';
   import SectionHeading from '$lib/components/ui/SectionHeading.svelte';
   import { formatDate } from '$lib/utils/calculations';
+  import type { PageData } from './$types';
+
+  let { data } = $props<{ data: PageData }>();
 
   type Category = 'all' | 'tarif' | 'beslenme' | 'saglik' | 'yasam';
 
@@ -17,7 +18,7 @@
 
   // Combine blog posts and recipes into unified items
   let allItems = $derived([
-    ...BLOG_POSTS.map(post => ({
+    ...data.blogPosts.map(post => ({
       id: `blog-${post.id}`,
       slug: post.slug,
       title: post.title,
@@ -29,7 +30,7 @@
       type: 'blog' as const,
       tags: post.tags
     })),
-    ...RECIPES.map(recipe => ({
+    ...data.recipes.map(recipe => ({
       id: `recipe-${recipe.id}`,
       slug: recipe.slug,
       title: recipe.title,
