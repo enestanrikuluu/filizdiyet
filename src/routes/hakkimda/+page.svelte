@@ -62,21 +62,16 @@
           style="
             width: 100%;
             aspect-ratio: 3/4;
-            background: linear-gradient(160deg, var(--color-primary-lighter), var(--color-accent-light));
             border-radius: var(--radius-lg);
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: end;
-            justify-content: center;
-            padding-bottom: var(--space-8);
-            font-family: var(--font-display);
-            font-style: italic;
-            color: var(--color-primary);
-            font-size: var(--text-xl);
           "
         >
-          Dyt. Başak Filiz Tanrıkulu
+          <img
+            src="/images/basak-filiz-tanrikulu.jpeg"
+            alt="Diyetisyen Başak Filiz Tanrıkulu"
+            style="width: 100%; height: 100%; object-fit: cover;"
+          />
         </div>
       </div>
 

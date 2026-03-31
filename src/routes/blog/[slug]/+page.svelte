@@ -290,7 +290,11 @@
                   onmouseenter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                   onmouseleave={(e) => e.currentTarget.style.transform = 'none'}
                 >
-                  <div style="height: 8rem; background: linear-gradient(135deg, var(--color-primary-lighter), var(--color-surface-alt));"></div>
+                  <div style="height: 8rem; background: linear-gradient(135deg, var(--color-primary-lighter), var(--color-surface-alt)); overflow: hidden;">
+                    {#if post.imageUrl}
+                      <img src={post.imageUrl} alt={post.title} loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+                    {/if}
+                  </div>
                   <div style="padding: var(--space-4);">
                     <h3 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-1);">{post.title}</h3>
                     <p style="font-size: var(--text-xs); color: var(--color-text-tertiary);">{post.readingTime} dk okuma</p>
@@ -310,7 +314,11 @@
                   onmouseenter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                   onmouseleave={(e) => e.currentTarget.style.transform = 'none'}
                 >
-                  <div style="height: 8rem; background: linear-gradient(135deg, var(--color-accent-lighter), var(--color-surface-alt));"></div>
+                  <div style="height: 8rem; background: linear-gradient(135deg, var(--color-accent-light), var(--color-surface-alt)); overflow: hidden;">
+                    {#if rel.imageUrl}
+                      <img src={rel.imageUrl} alt={rel.title} loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+                    {/if}
+                  </div>
                   <div style="padding: var(--space-4);">
                     <h3 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-1);">{rel.title}</h3>
                     <p style="font-size: var(--text-xs); color: var(--color-text-tertiary);">{rel.calories} kcal · {rel.servings} kişilik</p>
