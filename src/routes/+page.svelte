@@ -166,25 +166,22 @@
       class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center"
       style="opacity: {sections['about'] ? '1' : '0'}; transform: translateY({sections['about'] ? '0' : '20px'}); transition: all var(--duration-reveal) var(--ease-out-expo);"
     >
-      <!-- Image placeholder -->
+      <!-- Image -->
       <div class="lg:col-span-2 flex justify-center">
         <div
           style="
             width: 100%;
             max-width: 360px;
             aspect-ratio: 3/4;
-            background: linear-gradient(135deg, var(--color-primary-lighter), var(--color-accent-light));
             border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-primary);
-            font-family: var(--font-display);
-            font-size: var(--text-lg);
-            font-style: italic;
+            overflow: hidden;
           "
         >
-          Dyt. Başak Filiz
+          <img
+            src="/images/basak-filiz-tanrikulu.jpeg"
+            alt="Diyetisyen Başak Filiz Tanrıkulu"
+            style="width: 100%; height: 100%; object-fit: cover;"
+          />
         </div>
       </div>
 
