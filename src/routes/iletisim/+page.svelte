@@ -228,9 +228,18 @@
             </div>
           </div>
 
-          <!-- Map placeholder -->
-          <div style="margin-top: var(--space-6); aspect-ratio: 4/3; background: var(--color-border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
-            <p style="font-size: var(--text-sm); color: var(--color-text-tertiary);">Tuzla, İstanbul</p>
+          <!-- Google Maps -->
+          <div style="margin-top: var(--space-6); border-radius: var(--radius-md); overflow: hidden;">
+            <iframe
+              src="https://maps.google.com/maps?q=%C5%9Eifa+Nur+Sk+No+3-B+34950+Tuzla+%C4%B0stanbul&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="280"
+              style="border:0; display: block;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Filiz Diyet Konum - Şifa, Nur Sk. No:3-B, 34950 Tuzla/İstanbul"
+            ></iframe>
           </div>
         </div>
       </div>
