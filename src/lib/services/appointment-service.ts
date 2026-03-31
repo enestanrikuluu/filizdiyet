@@ -30,6 +30,17 @@ export async function createAppointment(input: AppointmentInput) {
     throw new Error('Randevu oluşturulamadı. Lütfen tekrar deneyin.');
   }
 
+  // Send email notification (fire-and-forget, don't block appointment creation)
+  try {
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(input)
+    }).catch((err) => console.warn('Email notification failed:', err));
+  } catch (e) {
+    console.warn('Email notification error:', e);
+  }
+
   return data;
 }
 
