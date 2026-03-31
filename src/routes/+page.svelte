@@ -239,13 +239,6 @@
                 border-radius: var(--radius-lg);
                 margin-bottom: var(--space-4);
                 overflow: hidden;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-family: var(--font-display);
-                font-style: italic;
-                color: var(--color-primary);
-                font-size: var(--text-lg);
                 transition: transform var(--duration-normal) var(--ease-out-expo);
               "
               onmouseenter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
@@ -253,7 +246,13 @@
               role="button"
               tabindex="0"
             >
-              {recipe.title}
+              {#if recipe.imageUrl}
+                <img src={recipe.imageUrl} alt={recipe.title} loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
+              {:else}
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-style: italic; color: var(--color-primary); font-size: var(--text-lg);">
+                  {recipe.title}
+                </div>
+              {/if}
             </div>
             <div class="flex items-center gap-3" style="margin-bottom: var(--space-2);">
               {#each recipe.tags.slice(0, 2) as tag}

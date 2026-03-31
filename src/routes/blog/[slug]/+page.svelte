@@ -1,7 +1,5 @@
 <script lang="ts">
   import Button from '$lib/components/ui/Button.svelte';
-  import { BLOG_POSTS } from '$lib/data/blog-posts';
-  import { RECIPES } from '$lib/data/recipes';
   import type { BlogPost, Recipe } from '$lib/types';
   import { formatDate } from '$lib/utils/calculations';
 
@@ -24,18 +22,9 @@
   let blogPost = $derived(isBlogPost ? (data.item as BlogPost) : null);
   let recipe = $derived(!isBlogPost ? (data.item as Recipe) : null);
 
-  // Related content
-  let relatedPosts = $derived(
-    isBlogPost && blogPost
-      ? BLOG_POSTS.filter((p) => p.slug !== blogPost!.slug && p.category === blogPost!.category).slice(0, 3)
-      : []
-  );
-
-  let relatedRecipes = $derived(
-    !isBlogPost && recipe
-      ? RECIPES.filter((r) => r.slug !== recipe!.slug && r.category === recipe!.category).slice(0, 3)
-      : []
-  );
+  // Related content from load function
+  let relatedPosts = $derived(data.relatedPosts ?? []);
+  let relatedRecipes = $derived(data.relatedRecipes ?? []);
 
   // Parse markdown-like bold text
   function parseContent(text: string): string {
@@ -109,6 +98,17 @@
     </div>
   </div>
 </section>
+
+<!-- Hero Image -->
+{#if (isBlogPost && blogPost?.imageUrl) || (!isBlogPost && recipe?.imageUrl)}
+  <div class="container" style="max-width: 48rem; margin-inline: auto; margin-top: calc(-1 * var(--space-4));">
+    <img
+      src={isBlogPost ? blogPost?.imageUrl : recipe?.imageUrl}
+      alt={isBlogPost ? blogPost?.title : recipe?.title}
+      style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);"
+    />
+  </div>
+{/if}
 
 <!-- Content Area -->
 <section style="padding-block: var(--space-16);">

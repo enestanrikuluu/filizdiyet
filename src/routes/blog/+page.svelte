@@ -106,18 +106,23 @@
               border-radius: var(--radius-lg);
               margin-bottom: var(--space-4);
               overflow: hidden;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-family: var(--font-display);
-              font-style: italic;
-              color: var(--color-primary);
               transition: transform var(--duration-normal) var(--ease-out-expo);
             "
           >
-            <span style="font-size: var(--text-sm); text-align: center; padding: var(--space-4); opacity: 0.6;">
-              {item.title}
-            </span>
+            {#if item.imageUrl}
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                loading="lazy"
+                style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--duration-normal) var(--ease-out-expo);"
+              />
+            {:else}
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-style: italic; color: var(--color-primary);">
+                <span style="font-size: var(--text-sm); text-align: center; padding: var(--space-4); opacity: 0.6;">
+                  {item.title}
+                </span>
+              </div>
+            {/if}
           </div>
 
           <!-- Meta -->
