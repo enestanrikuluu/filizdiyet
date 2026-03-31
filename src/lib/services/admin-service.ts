@@ -105,3 +105,54 @@ export async function getAllRecipes() {
   if (error) throw new Error(error.message);
   return data ?? [];
 }
+
+export async function createRecipe(recipe: Record<string, unknown>) {
+  const { data, error } = await supabase
+    .from('recipes')
+    .insert(recipe)
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function updateRecipe(id: string, updates: Record<string, unknown>) {
+  const { error } = await supabase.from('recipes').update(updates).eq('id', id);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteRecipe(id: string) {
+  const { error } = await supabase.from('recipes').delete().eq('id', id);
+  if (error) throw new Error(error.message);
+}
+
+// ── Success Stories CRUD ──
+
+export async function getAllSuccessStories() {
+  const { data, error } = await supabase
+    .from('success_stories')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
+export async function createSuccessStory(story: Record<string, unknown>) {
+  const { data, error } = await supabase
+    .from('success_stories')
+    .insert(story)
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function updateSuccessStory(id: string, updates: Record<string, unknown>) {
+  const { error } = await supabase.from('success_stories').update(updates).eq('id', id);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteSuccessStory(id: string) {
+  const { error } = await supabase.from('success_stories').delete().eq('id', id);
+  if (error) throw new Error(error.message);
+}

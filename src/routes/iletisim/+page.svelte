@@ -231,7 +231,7 @@
           <!-- Google Maps -->
           <div style="margin-top: var(--space-6); border-radius: var(--radius-md); overflow: hidden;">
             <iframe
-              src="https://maps.google.com/maps?q=%C5%9Eifa+Nur+Sk+No+3-B+34950+Tuzla+%C4%B0stanbul&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Filiz+Diyet+%C5%9Eifa+Nur+Sk+Tuzla+%C4%B0stanbul&ll=40.828696,29.3594962&z=17&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="280"
               style="border:0; display: block;"
